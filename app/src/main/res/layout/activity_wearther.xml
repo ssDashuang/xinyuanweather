@@ -28,7 +28,7 @@
             <include layout="@layout/layout_aqi"></include>
 
             <include layout="@layout/layout_suggestion"></include>
-            
+
         </LinearLayout>
     </ScrollView>
 
