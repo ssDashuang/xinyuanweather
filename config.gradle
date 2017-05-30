@@ -1,0 +1,28 @@
+ext{
+    //Android
+    androidBuildToolsVersion = "25.0.2"
+    androidMinSdkVersion = 14
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+    androidVersionCode = 1;
+    androidVersionName = "1.0"
+
+    //Libraries
+    appcompatVersion = '25.3.1'
+    constraintLayoutVersion = '1.0.0'
+    design = '26.0.0-alpha1'
+    litepal = '1.5.1'
+    okhttp='3.8.0'
+    gson='2.7'
+    glide='3.7.0'
+
+    dependencies = [
+            appcompat: "com.android.support:appcompat-v7:${appcompatVersion}",
+            constraintLayout: "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            design: "com.android.support:design:${design}",
+            litepal: "org.litepal.android:core:${litepal}",
+            okhttp: "com.squareup.okhttp3:okhttp:${okhttp}",
+            gson: "com.google.code.gson:gson:${gson}",
+            glide: "com.github.bumptech.glide:glide:${glide}"
+    ]
+}
