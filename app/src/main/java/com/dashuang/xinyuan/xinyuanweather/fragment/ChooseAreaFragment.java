@@ -2,6 +2,7 @@ package com.dashuang.xinyuan.xinyuanweather.fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dashuang.xinyuan.xinyuanweather.R;
+import com.dashuang.xinyuan.xinyuanweather.WeartherActivity;
 import com.dashuang.xinyuan.xinyuanweather.db.City;
 import com.dashuang.xinyuan.xinyuanweather.db.County;
 import com.dashuang.xinyuan.xinyuanweather.db.Province;
@@ -90,6 +92,12 @@ public class ChooseAreaFragment extends Fragment {
                 }else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(i);
                     queryCounty();
+                }else if (currentLevel == LEVEL_COUNTY){
+                    String weatherId = countyList.get(i).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeartherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });

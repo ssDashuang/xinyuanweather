@@ -10,8 +10,12 @@ public class AQI {
 
     public class AQICity{
 
-        public String api;
+        public String aqi;
+
+        public String pm10;
 
         public String pm25;
+
+        public String qlty;
     }
 }
