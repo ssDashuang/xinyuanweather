@@ -6,7 +6,6 @@ package com.dashuang.xinyuan.xinyuanweather.Global;
 
 public class PrefConstantKey {
 
-    public static final String WEATHER_WEATHER_INFO = "weather";
-
     public static final String WEATHER_BG = "weather_bg";
+    public static final String WEATHERID_SET = "weather_id_set";
 }

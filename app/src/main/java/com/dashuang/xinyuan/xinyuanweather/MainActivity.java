@@ -15,9 +15,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        String weatherString = PrefUtil.getString(this, PrefConstantKey.WEATHER_WEATHER_INFO);
-        if (!TextUtils.isEmpty(weatherString)){
+        if (PrefUtil.getSetString(this,PrefConstantKey.WEATHERID_SET).size() > 0){
+            //如果有选择好的城市直接进入
             Intent intent = new Intent(this,WeartherActivity.class);
             startActivity(intent);
             finish();

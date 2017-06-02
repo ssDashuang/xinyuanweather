@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * Created by chx on 2017/5/31.
  */
@@ -24,7 +27,22 @@ public class PrefUtil {
         }
         return false;
     }
+    public static void putSetString(Context ctx,String key,Set<String> set){
+        try {
+            pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putStringSet(key,set);
+            editor.apply();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    public static Set<String> getSetString(Context ctx,String key){
+        pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        Set<String> set = pref.getStringSet(key,null);
+        return  set;
+    }
     public static String getString(Context ctx,String key){
         pref = PreferenceManager.getDefaultSharedPreferences(ctx);
         String weather = pref.getString(key,null);

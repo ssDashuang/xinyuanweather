@@ -1,0 +1,48 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.dashuang.xinyuan.xinyuanweather.fragment.WeatherFragment">
+
+
+    <ImageView
+        android:id="@+id/iv_pic_bg"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_weather_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollview_weather"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--fitsSystemWindows:为系统状态栏留出空间-->
+            <LinearLayout
+                android:orientation="vertical"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/layout_title"></include>
+
+                <include layout="@layout/layout_now"></include>
+
+                <include layout="@layout/layout_forecast"></include>
+
+                <include layout="@layout/layout_aqi"></include>
+
+                <include layout="@layout/layout_suggestion"></include>
+
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>
