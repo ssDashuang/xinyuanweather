@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/windowBackground"
     tools:context="com.dashuang.xinyuan.xinyuanweather.fragment.WeatherFragment">
 
 
@@ -28,10 +28,19 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:fitsSystemWindows="true"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <include layout="@layout/layout_title"></include>
+
+                <TextView
+                    android:id="@+id/tv_title_update_time"
+                    android:textColor="@color/textColorPrimary"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <include layout="@layout/layout_now"></include>
 

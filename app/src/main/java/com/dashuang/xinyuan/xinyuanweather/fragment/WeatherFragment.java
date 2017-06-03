@@ -1,6 +1,7 @@
 package com.dashuang.xinyuan.xinyuanweather.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -18,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.dashuang.xinyuan.xinyuanweather.Global.ConstantURL;
 import com.dashuang.xinyuan.xinyuanweather.Global.PrefConstantKey;
 import com.dashuang.xinyuan.xinyuanweather.R;
+import com.dashuang.xinyuan.xinyuanweather.SettingActivity;
 import com.dashuang.xinyuan.xinyuanweather.gson.Forecast;
 import com.dashuang.xinyuan.xinyuanweather.gson.Weather;
 import com.dashuang.xinyuan.xinyuanweather.util.HttpUtil;
@@ -32,7 +35,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "WeatherFragment";
     private static final String WEATHER_ID = "weather_id";
@@ -59,13 +62,22 @@ public class WeatherFragment extends Fragment {
 
     private TextView tvSport;
 
+    private TextView tvWind;
+
     private ImageView ivBg;
+
+    private ImageView ivTmpPicture;
+
+    private ImageButton ibSetting;
+
+    private ImageButton ibMore;
 
     private SwipeRefreshLayout refreshLayout;
 
     private LinearLayout layoutForecast;
 
     private String currentWeatherID ;
+
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -121,6 +133,8 @@ public class WeatherFragment extends Fragment {
                 requestWeather(currentWeatherID);
             }
         });
+        ibSetting.setOnClickListener(this);
+
     }
 
     private void loadPref() {
@@ -157,7 +171,11 @@ public class WeatherFragment extends Fragment {
         tvUpdateTime = (TextView) view.findViewById(R.id.tv_title_update_time);
         tvSport = (TextView) view.findViewById(R.id.tv_sport);
         tvWeatherInfo = (TextView) view.findViewById(R.id.tv_weather_info);
+        tvWind = (TextView) view.findViewById(R.id.tv_weather_wind);
         ivBg = (ImageView) view.findViewById(R.id.iv_pic_bg);
+        ivTmpPicture = (ImageView) view.findViewById(R.id.iv_tmp_picture);
+        ibMore = (ImageButton) view.findViewById(R.id.ib_more);
+        ibSetting = (ImageButton) view.findViewById(R.id.ib_setting);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_weather_refresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
     }
@@ -235,13 +253,18 @@ public class WeatherFragment extends Fragment {
      */
     private void showWeatherInfo(Weather weather){
         String cityName = weather.basic.cityName;
-        String updateTime ="更新:" +weather.basic.update.updateTime.split(" ")[1];
+        String updateTime =weather.basic.update.updateTime.split(" ")[1]+" 更新" ;
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
+        String weatherImgUrl = ConstantURL.WEATHER_PICTURE_URL + weather.now.more.code+".png";
+        String windInfo = weather.now.wind.direction+"   "+weather.now.wind.grade;
         tvTitleCity.setText(cityName);
         tvUpdateTime.setText(updateTime);
         tvWeatherInfo.setText(weatherInfo);
         tvDegree.setText(degree);
+        tvWind.setText(windInfo);
+        Log.e(TAG, "showWeatherInfo: --------->"+weatherImgUrl );
+        Glide.with(getActivity()).load(weatherImgUrl).into(ivTmpPicture);
         layoutForecast.removeAllViews();
         for (Forecast f : weather.forecastList){
             View view = View.inflate(getActivity(),R.layout.forecast_item,null);
@@ -268,5 +291,15 @@ public class WeatherFragment extends Fragment {
         tvCarWash.setText(carWash);
         tvSport.setText(sport);
         scrollViewWeather.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ib_setting:
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

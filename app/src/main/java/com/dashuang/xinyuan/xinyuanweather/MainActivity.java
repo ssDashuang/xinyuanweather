@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (PrefUtil.getSetString(this,PrefConstantKey.WEATHERID_SET).size() > 0){
+        if (PrefUtil.getSetString(this,PrefConstantKey.WEATHERID_SET) != null){
             //如果有选择好的城市直接进入
             Intent intent = new Intent(this,WeartherActivity.class);
             startActivity(intent);

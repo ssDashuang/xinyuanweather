@@ -7,7 +7,7 @@
         android:id="@+id/tv_title_city"
         android:layout_centerInParent="true"
         android:drawableLeft="@drawable/ic_change_city"
-        android:textColor="@color/colorTitle"
+        android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/titleSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArraySet;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -78,8 +79,11 @@ public class WeartherActivity extends AppCompatActivity {
                 fragments.add(fragment);
             }
         }else {
+            weatherIdSet = new ArraySet<String>();
             Intent intent = getIntent();
             String weatherId = intent.getStringExtra("weather_id");
+            weatherIdSet.add(weatherId);
+            PrefUtil.putSetString(this,PrefConstantKey.WEATHERID_SET,weatherIdSet);
             Fragment fragment = WeatherFragment.newInstance(weatherId);
             fragments.add(fragment);
         }
