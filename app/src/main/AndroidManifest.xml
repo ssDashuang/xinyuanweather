@@ -20,9 +20,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WeartherActivity"
-            android:theme="@style/WeatherActivityTheme"></activity>
-        <activity android:name=".SettingActivity"></activity>
+            android:name=".WeatherActivity"
+            android:theme="@style/WeatherActivityTheme" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingDetailActivity"></activity>
     </application>
 
 </manifest>

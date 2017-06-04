@@ -32,6 +32,7 @@ dependencies {
     compile dependency['okhttp']
     compile dependency['gson']
     compile dependency['glide']
+    compile dependency['cardview']
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     testCompile 'junit:junit:4.12'

@@ -15,6 +15,7 @@
     <LinearLayout
         android:layout_margin="20dp"
         android:orientation="vertical"
+        android:gravity="end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <TextView
@@ -109,7 +110,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"></View>
         <RelativeLayout
-            android:id="@+id/setting_auto_update"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -120,6 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Switch
+                android:id="@+id/switch_auto_update"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -146,7 +147,6 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/setting_voice_report"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -157,6 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
             <Switch
+                android:id="@+id/switch_voice_report"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"

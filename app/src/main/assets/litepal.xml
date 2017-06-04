@@ -6,5 +6,6 @@
     <mapping class="com.dashuang.xinyuan.xinyuanweather.db.Province"></mapping>
     <mapping class="com.dashuang.xinyuan.xinyuanweather.db.City"></mapping>
     <mapping class="com.dashuang.xinyuan.xinyuanweather.db.County"></mapping>
+    <mapping class="com.dashuang.xinyuan.xinyuanweather.db.CityManager"></mapping>
 </list>
 </litepal>

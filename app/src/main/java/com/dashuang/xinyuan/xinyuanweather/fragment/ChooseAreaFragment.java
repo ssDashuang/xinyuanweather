@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.dashuang.xinyuan.xinyuanweather.MainActivity;
 import com.dashuang.xinyuan.xinyuanweather.R;
-import com.dashuang.xinyuan.xinyuanweather.WeartherActivity;
+import com.dashuang.xinyuan.xinyuanweather.SettingDetailActivity;
+import com.dashuang.xinyuan.xinyuanweather.WeatherActivity;
+import com.dashuang.xinyuan.xinyuanweather.dao.CityManagerDao;
 import com.dashuang.xinyuan.xinyuanweather.db.City;
 import com.dashuang.xinyuan.xinyuanweather.db.County;
 import com.dashuang.xinyuan.xinyuanweather.db.Province;
@@ -94,12 +96,23 @@ public class ChooseAreaFragment extends Fragment {
                     selectedCity = cityList.get(i);
                     queryCounty();
                 }else if (currentLevel == LEVEL_COUNTY){
-                    String weatherId = countyList.get(i).getWeatherId();
+                    County county = countyList.get(i);
                     if (getActivity() instanceof MainActivity) {
-                        Intent intent = new Intent(getActivity(), WeartherActivity.class);
-                        intent.putExtra("weather_id", weatherId);
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id", county.getWeatherId());
+                        //存入数据库
+                        CityManagerDao.addCity(county);
                         startActivity(intent);
                         getActivity().finish();
+                    }else if (getActivity() instanceof SettingDetailActivity){
+                        CityManagerDao.addCity(county);
+                        getActivity().finish();
+                    }else if (getActivity() instanceof WeatherActivity){
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.closeDrawer();
+                        WeatherFragment fragment = activity.getCurrentFragment();
+                        CityManagerDao.updateCity(fragment.getWeatherId(),county);
+                        fragment.swipeRefresh(county.getWeatherId());
                     }
                 }
             }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.dashuang.xinyuan.xinyuanweather.Global.ConstantURL;
 import com.dashuang.xinyuan.xinyuanweather.Global.PrefConstantKey;
 import com.dashuang.xinyuan.xinyuanweather.R;
 import com.dashuang.xinyuan.xinyuanweather.SettingActivity;
+import com.dashuang.xinyuan.xinyuanweather.WeatherActivity;
 import com.dashuang.xinyuan.xinyuanweather.gson.Forecast;
 import com.dashuang.xinyuan.xinyuanweather.gson.Weather;
 import com.dashuang.xinyuan.xinyuanweather.util.HttpUtil;
@@ -134,7 +136,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
             }
         });
         ibSetting.setOnClickListener(this);
-
+        ibMore.setOnClickListener(this);
     }
 
     private void loadPref() {
@@ -293,12 +295,26 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         scrollViewWeather.setVisibility(View.VISIBLE);
     }
 
+    public String getWeatherId(){
+        return currentWeatherID;
+    }
+
+    public void swipeRefresh(String weatherId){
+        refreshLayout.setRefreshing(true);
+        requestWeather(weatherId);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ib_setting:
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
                 startActivity(intent);
+                getActivity().finish();
+                break;
+            case R.id.ib_more:
+                WeatherActivity weatherActivity = (WeatherActivity) getActivity();
+                weatherActivity.openDrawer();
                 break;
         }
     }
