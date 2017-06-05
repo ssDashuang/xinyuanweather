@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dashuang.xinyuan.xinyuanweather.Global.PrefConstantKey;
 import com.dashuang.xinyuan.xinyuanweather.MainActivity;
 import com.dashuang.xinyuan.xinyuanweather.R;
 import com.dashuang.xinyuan.xinyuanweather.SettingDetailActivity;
@@ -26,6 +27,7 @@ import com.dashuang.xinyuan.xinyuanweather.db.County;
 import com.dashuang.xinyuan.xinyuanweather.db.Province;
 import com.dashuang.xinyuan.xinyuanweather.util.HttpUtil;
 import com.dashuang.xinyuan.xinyuanweather.util.JsonUtility;
+import com.dashuang.xinyuan.xinyuanweather.util.PrefUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -100,6 +102,17 @@ public class ChooseAreaFragment extends Fragment {
                     if (getActivity() instanceof MainActivity) {
                         Intent intent = new Intent(getActivity(), WeatherActivity.class);
                         intent.putExtra("weather_id", county.getWeatherId());
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        if (mainActivity.isUpdateLocation){
+                            //更新位置信息
+                            StringBuilder location = new StringBuilder();
+                            location.append("中国")
+                                    .append(",").append(selectedProvince.getProvinceName())
+                                    .append(",").append(selectedCity.getCityName())
+                                    .append(",").append(county.getCountyName());
+                            PrefUtil.putString(mainActivity, PrefConstantKey.
+                                    CURRENT_LOCATION,location.toString());
+                        }
                         //存入数据库
                         CityManagerDao.addCity(county);
                         startActivity(intent);

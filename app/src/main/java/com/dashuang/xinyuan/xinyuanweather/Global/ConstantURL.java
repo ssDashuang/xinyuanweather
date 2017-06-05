@@ -13,4 +13,6 @@ public class ConstantURL {
     public static final String BG_IMG_URL = "http://guolin.tech/api/bing_pic";
 
     public static final String WEATHER_PICTURE_URL = "https://cdn.heweather.com/cond_icon/";
+
+    public static final String CITY_URL = "http://guolin.tech/api/china";
 }

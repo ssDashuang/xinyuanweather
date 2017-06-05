@@ -48,4 +48,22 @@ public class PrefUtil {
         String weather = pref.getString(key,null);
         return  weather;
     }
+
+    public static boolean putBoolean(Context ctx,String key,boolean b){
+        try {
+            pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean(key, b);
+            editor.apply();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean getBoolean(Context ctx,String key){
+        pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        boolean b = pref.getBoolean(key,false);
+        return  b;
+    }
 }

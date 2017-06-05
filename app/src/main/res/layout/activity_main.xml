@@ -8,10 +8,9 @@
     android:background="#ffaa55"
     tools:context="com.dashuang.xinyuan.xinyuanweather.MainActivity">
 
-    <fragment
-        android:id="@+id/choose_area_fragment"
-        android:name="com.dashuang.xinyuan.xinyuanweather.fragment.ChooseAreaFragment"
+    <FrameLayout
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="match_parent"></FrameLayout>
 
 </FrameLayout>

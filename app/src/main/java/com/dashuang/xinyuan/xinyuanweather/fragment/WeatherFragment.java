@@ -139,7 +139,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         ibMore.setOnClickListener(this);
     }
 
-    private void loadPref() {
+    private void  loadPref() {
         //加载天气缓存
         String weatherString = PrefUtil.getString(getActivity(), prefKey);
         if (weatherString != null){
