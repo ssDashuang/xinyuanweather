@@ -1,6 +1,5 @@
 package com.dashuang.xinyuan.xinyuanweather;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -9,11 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.dashuang.xinyuan.xinyuanweather.fragment.ChooseAreaFragment;
+import com.dashuang.xinyuan.xinyuanweather.fragment.CityDeleteFragment;
 
 public class SettingDetailActivity extends AppCompatActivity {
 
     private static String fragmentKey = "fragmentName";
-    public static final String addCity = "addCity";
+    public static final String ADD_CITY = "ADD_CITY";
+    public static final String DELETE_CITY = "DELETE_CITY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +29,13 @@ public class SettingDetailActivity extends AppCompatActivity {
         FragmentManager manager= getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         switch (fragmentName){
-            case addCity:
+            case ADD_CITY:
                 ft.replace(R.id.setting_detail_container,new ChooseAreaFragment());
                 ft.commit();
                 break;
-            case "":
+            case DELETE_CITY:
+                ft.replace(R.id.setting_detail_container,new CityDeleteFragment());
+                ft.commit();
                 break;
         }
     }

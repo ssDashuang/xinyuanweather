@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/colorModule"
     android:padding="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -16,6 +15,8 @@
         android:layout_height="wrap_content" />
     <ImageButton
         android:id="@+id/ib_item_delete_city"
+        android:src="@drawable/delete_selector"
+        android:background="@null"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"

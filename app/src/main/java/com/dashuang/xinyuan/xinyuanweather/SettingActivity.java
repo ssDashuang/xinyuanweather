@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
+import java.util.Set;
+
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RelativeLayout settingCurrentCity;
@@ -56,9 +58,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.setting_add_city:
                 SettingDetailActivity.startAction(SettingActivity.this,
-                        SettingDetailActivity.addCity);
+                        SettingDetailActivity.ADD_CITY);
                 break;
             case R.id.setting_delete_city:
+                SettingDetailActivity.startAction(SettingActivity.this,
+                        SettingDetailActivity.DELETE_CITY);
                 break;
             case R.id.setting_interval_time:
                 break;
@@ -71,5 +75,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         Intent intent = new Intent(SettingActivity.this,WeatherActivity.class);
         startActivity(intent);
+        this.finish();
     }
 }
