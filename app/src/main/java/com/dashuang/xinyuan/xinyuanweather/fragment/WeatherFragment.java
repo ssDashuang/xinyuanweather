@@ -42,7 +42,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "WeatherFragment";
     private static final String WEATHER_ID = "weather_id";
 
-    private String prefKey = "WeatherFragment";
+    private String prefKey;
 
     private ScrollView scrollViewWeather;
 
@@ -98,7 +98,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             currentWeatherID = getArguments().getString(WEATHER_ID);
-            prefKey += currentWeatherID;
+            prefKey =  PrefConstantKey.WEATHER_INFO + currentWeatherID;
         }
     }
 

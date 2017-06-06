@@ -66,4 +66,21 @@ public class PrefUtil {
         boolean b = pref.getBoolean(key,false);
         return  b;
     }
+    public static boolean putInt(Context ctx,String key,int data){
+        try {
+            pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt(key, data);
+            editor.apply();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static int getInt(Context ctx,String key){
+        pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        int data = pref.getInt(key,0);
+        return  data;
+    }
 }

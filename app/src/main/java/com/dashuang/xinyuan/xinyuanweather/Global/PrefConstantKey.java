@@ -14,4 +14,8 @@ public class PrefConstantKey {
 
     public static final String VOICE_REPORT = "VOICE_REPORT";
 
+    public static final String UPDATE_INTERVAL_TIME = "UPDATE_INTERVAL_TIME";
+
+    public static final String WEATHER_INFO = "WEATHER_INFO";
+
 }
