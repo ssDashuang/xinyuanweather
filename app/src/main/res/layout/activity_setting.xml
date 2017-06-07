@@ -9,6 +9,7 @@
     android:background="@color/windowBackground"
     tools:context="com.dashuang.xinyuan.xinyuanweather.SettingActivity">
 
+
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">

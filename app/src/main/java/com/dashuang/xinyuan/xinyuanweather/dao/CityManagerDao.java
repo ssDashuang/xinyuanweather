@@ -33,6 +33,9 @@ public class CityManagerDao {
         CityManager manager = new CityManager();
         manager.setCountyName(county.getCountyName());
         manager.setWeatherId(county.getWeatherId());
+        manager.setTime(-1);
+        manager.setTimeInfo(null);
+        manager.setReport(false);
         boolean result = manager.save();
         return  result;
     }
@@ -41,6 +44,11 @@ public class CityManagerDao {
         CityManager manager = new CityManager();
         manager.setCountyName(newCounty.getCountyName());
         manager.setWeatherId(newCounty.getWeatherId());
+        manager.updateAll("weatherId = ?",weatherId);
+    }
+    public static void updateCity(String weatherId,boolean openReport){
+        CityManager manager = new CityManager();
+        manager.setReport(openReport);
         manager.updateAll("weatherId = ?",weatherId);
     }
 

@@ -4,11 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.dashuang.xinyuan.xinyuanweather.Global.ConstantURL;
@@ -22,12 +20,17 @@ import com.dashuang.xinyuan.xinyuanweather.util.PrefUtil;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.SynthesizerListener;
+
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,7 +49,7 @@ public class WeatherService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=58d2459f");
     }
 
     @Override
@@ -57,11 +60,45 @@ public class WeatherService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         isAutoUpdate = PrefUtil.getBoolean(WeatherService.this,PrefConstantKey.AUTO_UPDATE);
+        isVoiceReport = PrefUtil.getBoolean(WeatherService.this,PrefConstantKey.VOICE_REPORT);
         if (isAutoUpdate){
             setAutoUpdate();
             startUpdate();
         }
+       if (isVoiceReport){
+            setVoiceReport();
+        }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void setVoiceReport() {
+        final List<CityManager> cityList = CityManagerDao.queryAll();
+        if (cityList != null && cityList.size() > 0 ) {
+            Intent intent = new Intent(this, WeatherService.class);
+            PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+            AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            manager.cancel(pi);
+            long milliSecond = 0;
+            Timer timer = new Timer();
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    Log.e(TAG, "setVoiceReport: voiceReport" );
+                    Calendar c = Calendar.getInstance();
+                    c.setTimeInMillis(System.currentTimeMillis());
+                    int h = c.get(Calendar.HOUR_OF_DAY);
+                    int m = c.get(Calendar.MINUTE);
+                    Log.e(TAG, "run: "+h+","+m );
+                    long currentTime = h * 60 * 60 * 1000 + m * 60 * 1000;
+                    for (CityManager city : cityList) {
+                        if ( city.getReport() & city.getTime() == currentTime ) {
+                            startVoiceReport(city);
+                        }
+                    }
+                }
+            };
+            timer.schedule(task,0,60000);
+        }
     }
 
     private void setAutoUpdate(){
@@ -101,11 +138,18 @@ public class WeatherService extends Service {
         }
     }
 
-    private void startVoiceReport(){
-
+    private void startVoiceReport(CityManager city){
+        String msg = PrefUtil.getString(WeatherService.this,
+                PrefConstantKey.WEATHER_INFO+city.getWeatherId());
+        Weather weather = JsonUtility.parseWeatherJson(msg);
+        String speak = "现在播报"+city.getCountyName()+"的天气状况,"+"当前温度"
+                +weather.now.temperature+"度,"+weather.now.more.info+","
+                +weather.now.wind.direction+","+weather.now.wind.grade+"级";
+        voiceSpeak(speak);
     }
 
     private void voiceSpeak(String msg) {
+        Log.e(TAG, "voiceSpeak: msg" );
         //1.创建SpeechSynthesizer对象, 第二个参数：本地合成时传InitListener
         SpeechSynthesizer mTts= SpeechSynthesizer.createSynthesizer(getApplicationContext(), null);
         //2.合成参数设置，详见《科大讯飞MSC API手册(Android)》SpeechSynthesizer 类

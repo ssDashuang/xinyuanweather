@@ -9,13 +9,15 @@ import android.os.Bundle;
 
 import com.dashuang.xinyuan.xinyuanweather.fragment.ChooseAreaFragment;
 import com.dashuang.xinyuan.xinyuanweather.fragment.CityDeleteFragment;
+import com.dashuang.xinyuan.xinyuanweather.fragment.ReportSettingFragment;
 
 public class SettingDetailActivity extends AppCompatActivity {
 
     private static String fragmentKey = "fragmentName";
     public static final String ADD_CITY = "ADD_CITY";
     public static final String DELETE_CITY = "DELETE_CITY";
-
+    public static final String INTERVAL_TIME = "INTERVAL_TIME";
+    public static final String SETTING_REPORT = "SETTING_REPORT";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,12 @@ public class SettingDetailActivity extends AppCompatActivity {
                 break;
             case DELETE_CITY:
                 ft.replace(R.id.setting_detail_container,new CityDeleteFragment());
+                ft.commit();
+                break;
+            case INTERVAL_TIME:
+                break;
+            case SETTING_REPORT:
+                ft.replace(R.id.setting_detail_container,new ReportSettingFragment());
                 ft.commit();
                 break;
         }

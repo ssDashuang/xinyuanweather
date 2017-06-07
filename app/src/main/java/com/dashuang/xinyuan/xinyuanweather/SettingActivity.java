@@ -48,6 +48,18 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         settingDeleteCity.setOnClickListener(this);
         settingReportTime.setOnClickListener(this);
         settingIntervalTime.setOnClickListener(this);
+        switchAutoUpdate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                PrefUtil.putBoolean(SettingActivity.this,PrefConstantKey.AUTO_UPDATE,b);
+            }
+        });
+        switchVoiceReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                PrefUtil.putBoolean(SettingActivity.this,PrefConstantKey.VOICE_REPORT,b);
+            }
+        });
     }
 
     private void initView() {
@@ -66,18 +78,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             String[] str = currentCity.split(",");
             tvCurrentCity.setText(str[str.length - 1]);
         }
-        switchAutoUpdate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-               PrefUtil.putBoolean(SettingActivity.this,PrefConstantKey.AUTO_UPDATE,b);
-            }
-        });
-        switchVoiceReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                PrefUtil.putBoolean(SettingActivity.this,PrefConstantKey.VOICE_REPORT,b);
-            }
-        });
+
+        boolean autoUpdate = PrefUtil.getBoolean(SettingActivity.this,PrefConstantKey.AUTO_UPDATE);
+        boolean voiceReport = PrefUtil.getBoolean(SettingActivity.this,PrefConstantKey.VOICE_REPORT);
+        switchAutoUpdate.setChecked(autoUpdate);
+        switchVoiceReport.setChecked(voiceReport);
     }
 
     @Override
@@ -95,8 +100,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                         SettingDetailActivity.DELETE_CITY);
                 break;
             case R.id.setting_interval_time:
+                SettingDetailActivity.startAction(SettingActivity.this,
+                        SettingDetailActivity.INTERVAL_TIME);
                 break;
             case R.id.setting_report_time:
+                SettingDetailActivity.startAction(SettingActivity.this,
+                        SettingDetailActivity.SETTING_REPORT);
                 break;
         }
     }

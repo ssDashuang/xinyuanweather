@@ -15,6 +15,7 @@ import com.dashuang.xinyuan.xinyuanweather.adapter.MyPagerAdapter;
 import com.dashuang.xinyuan.xinyuanweather.dao.CityManagerDao;
 import com.dashuang.xinyuan.xinyuanweather.db.CityManager;
 import com.dashuang.xinyuan.xinyuanweather.fragment.WeatherFragment;
+import com.dashuang.xinyuan.xinyuanweather.service.WeatherService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +43,12 @@ public class WeatherActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             //设置状态栏为透明状态
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
+         }
         setContentView(R.layout.activity_wearther);
         vpContainer = (ViewPager) findViewById(R.id.vp_container);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Intent intent = new Intent(WeatherActivity.this, WeatherService.class);
+        startService(intent);
         initData();
 
     }
@@ -84,4 +87,10 @@ public class WeatherActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(WeatherActivity.this,WeatherService.class);
+        stopService(intent);
+    }
 }
