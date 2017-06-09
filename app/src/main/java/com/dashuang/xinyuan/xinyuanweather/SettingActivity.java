@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -12,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.dashuang.xinyuan.xinyuanweather.Global.PrefConstantKey;
+import com.dashuang.xinyuan.xinyuanweather.fragment.IntervalTimeDialogFragment;
 import com.dashuang.xinyuan.xinyuanweather.util.PrefUtil;
 
 import java.util.Set;
@@ -26,11 +28,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private RelativeLayout settingDeleteCity;
 
-    private Switch switchAutoUpdate;
+    private SwitchCompat switchAutoUpdate;
 
     private RelativeLayout settingIntervalTime;
 
-    private Switch switchVoiceReport;
+    private SwitchCompat switchVoiceReport;
 
     private RelativeLayout settingReportTime;
 
@@ -52,12 +54,16 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 PrefUtil.putBoolean(SettingActivity.this,PrefConstantKey.AUTO_UPDATE,b);
+                Intent intent = new Intent("action.setting.changed");
+                sendBroadcast(intent);
             }
         });
         switchVoiceReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 PrefUtil.putBoolean(SettingActivity.this,PrefConstantKey.VOICE_REPORT,b);
+                Intent intent = new Intent("action.setting.changed");
+                sendBroadcast(intent);
             }
         });
     }
@@ -68,8 +74,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         settingDeleteCity = (RelativeLayout) findViewById(R.id.setting_delete_city);
         settingIntervalTime = (RelativeLayout) findViewById(R.id.setting_interval_time);
         settingReportTime = (RelativeLayout) findViewById(R.id.setting_report_time);
-        switchAutoUpdate = (Switch) findViewById(R.id.switch_auto_update);
-        switchVoiceReport = (Switch) findViewById(R.id.switch_voice_report);
+        switchAutoUpdate = (SwitchCompat) findViewById(R.id.switch_auto_update);
+        switchVoiceReport = (SwitchCompat) findViewById(R.id.switch_voice_report);
         tvCurrentCity = (TextView) findViewById(R.id.tv_setting_current_position);
 
         String currentCity = PrefUtil.getString(SettingActivity.this,
@@ -100,8 +106,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                         SettingDetailActivity.DELETE_CITY);
                 break;
             case R.id.setting_interval_time:
-                SettingDetailActivity.startAction(SettingActivity.this,
-                        SettingDetailActivity.INTERVAL_TIME);
+                IntervalTimeDialogFragment dialog = new IntervalTimeDialogFragment();
+                dialog.show(getSupportFragmentManager(),"IntervalTimeDialog");
                 break;
             case R.id.setting_report_time:
                 SettingDetailActivity.startAction(SettingActivity.this,

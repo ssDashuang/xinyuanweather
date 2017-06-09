@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
     <TextView
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/tv_report_city_name"
         android:text="测试"
         android:textColor="@color/textColorPrimary"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="15dp"
         android:layout_marginRight="20dp"
         android:id="@+id/tv_report_time"
         android:text="测试"
@@ -31,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.SwitchCompat
+        android:layout_marginTop="15dp"
         android:id="@+id/switch_open_report"
         android:focusable="false"
         android:textIsSelectable="false"

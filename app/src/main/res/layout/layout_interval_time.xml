@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/shape_dialog_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@color/windowBackground"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:text="更新间隔"
+        android:textSize="@dimen/titleSize"
+        android:textColor="@color/textColorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_select_time"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_margin="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RadioButton
+            android:text="1小时"
+            android:id="@+id/rb_one_hour"
+            android:textColor="@color/selector_txt_color"
+            android:background="@drawable/selector_rb_bg"
+            android:textSize="@dimen/titleSize"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="2小时"
+            android:id="@+id/rb_two_hour"
+            android:textColor="@color/selector_txt_color"
+            android:background="@drawable/selector_rb_bg"
+            android:textSize="@dimen/titleSize"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="6小时"
+            android:id="@+id/rb_six_hour"
+            android:textColor="@color/selector_txt_color"
+            android:background="@drawable/selector_rb_bg"
+            android:textSize="@dimen/titleSize"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RadioButton
+            android:text="8小时"
+            android:id="@+id/rb_eight_hour"
+            android:textColor="@color/selector_txt_color"
+            android:background="@drawable/selector_rb_bg"
+            android:textSize="@dimen/titleSize"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="12小时"
+            android:id="@+id/rb_twelve_hour"
+            android:textColor="@color/selector_txt_color"
+            android:background="@drawable/selector_rb_bg"
+            android:textSize="@dimen/titleSize"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="24小时"
+            android:checked="true"
+            android:id="@+id/rb_twenty_four_hour"
+            android:textColor="@color/selector_txt_color"
+            android:background="@drawable/selector_rb_bg"
+            android:textSize="@dimen/titleSize"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RadioGroup>
+</LinearLayout>

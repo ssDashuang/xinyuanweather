@@ -61,6 +61,7 @@
             android:name=".service.WeatherService"
             android:enabled="true"
             android:exported="true"></service>
+
     </application>
 
 </manifest>

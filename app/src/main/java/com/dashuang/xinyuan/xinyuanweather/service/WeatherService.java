@@ -3,7 +3,10 @@ package com.dashuang.xinyuan.xinyuanweather.service;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -22,6 +25,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.cloud.thirdparty.W;
 
 import org.litepal.crud.DataSupport;
 
@@ -43,6 +47,10 @@ public class WeatherService extends Service {
 
     private boolean isVoiceReport = false;
 
+    private Timer mTimer;
+
+    private MyBroadCastReceiver myBroadCastReceiver;
+
     public WeatherService() {
     }
 
@@ -50,6 +58,9 @@ public class WeatherService extends Service {
     public void onCreate() {
         super.onCreate();
         SpeechUtility.createUtility(this, SpeechConstant.APPID +"=58d2459f");
+        myBroadCastReceiver = new MyBroadCastReceiver();
+        IntentFilter filter = new IntentFilter("action.setting.changed");
+        registerReceiver(myBroadCastReceiver,filter);
     }
 
     @Override
@@ -65,7 +76,7 @@ public class WeatherService extends Service {
             setAutoUpdate();
             startUpdate();
         }
-       if (isVoiceReport){
+       if (isVoiceReport && mTimer == null){
             setVoiceReport();
         }
         return super.onStartCommand(intent, flags, startId);
@@ -74,12 +85,7 @@ public class WeatherService extends Service {
     private void setVoiceReport() {
         final List<CityManager> cityList = CityManagerDao.queryAll();
         if (cityList != null && cityList.size() > 0 ) {
-            Intent intent = new Intent(this, WeatherService.class);
-            PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
-            AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            manager.cancel(pi);
-            long milliSecond = 0;
-            Timer timer = new Timer();
+            mTimer = new Timer();
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
@@ -97,25 +103,36 @@ public class WeatherService extends Service {
                     }
                 }
             };
-            timer.schedule(task,0,60000);
+            mTimer.schedule(task,0,60000);
         }
+    }
+
+    private void updateSetting(){
+        this.stopSelf();
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        Intent intent = new Intent(WeatherService.this, WeatherService.class);
+        startService(intent);
     }
 
     private void setAutoUpdate(){
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int intervalTime = PrefUtil.getInt(this, PrefConstantKey.UPDATE_INTERVAL_TIME);
-        int milliSecond = intervalTime * 60 * 60 * 1000;
-        long triggerAtTime = SystemClock.elapsedRealtime() + milliSecond;
-        Intent intent = new Intent(this, WeatherService.class);
-        PendingIntent pi = PendingIntent.getService(this,0,intent,0);
-        manager.cancel(pi);
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pi);
+        if (intervalTime != 0) {
+            int milliSecond = intervalTime * 60 * 60 * 1000;
+            long triggerAtTime = SystemClock.elapsedRealtime() + milliSecond;
+            Intent intent = new Intent(this, WeatherService.class);
+            PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+            manager.cancel(pi);
+            manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+        }
     }
     private void startUpdate(){
         List<CityManager> cityManagerList = CityManagerDao.queryAll();
         if (cityManagerList != null & cityManagerList.size() > 0){
             //使用数据库中的数据
-            List<String> weatherIdList = new ArrayList<>();
             for (CityManager cityManager : cityManagerList){
                 String url = ConstantURL.WEATHER_URL
                         + cityManager.getWeatherId() + ConstantURL.WEATHER_API_KEY;
@@ -200,4 +217,19 @@ public class WeatherService extends Service {
         }
 
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myBroadCastReceiver);
+    }
+
+    class MyBroadCastReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateSetting();
+            Log.e(TAG, "onReceive: ----------->receiver" );
+        }
+    }
 }

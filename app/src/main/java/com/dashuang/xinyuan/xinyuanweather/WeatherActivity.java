@@ -47,8 +47,6 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wearther);
         vpContainer = (ViewPager) findViewById(R.id.vp_container);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Intent intent = new Intent(WeatherActivity.this, WeatherService.class);
-        startService(intent);
         initData();
 
     }
@@ -90,7 +88,5 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(WeatherActivity.this,WeatherService.class);
-        stopService(intent);
     }
 }

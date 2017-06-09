@@ -9,6 +9,18 @@
     android:background="@color/windowBackground"
     tools:context="com.dashuang.xinyuan.xinyuanweather.SettingActivity">
 
+    <!--
+    android:typeface="normal":设置字体类型
+    android:track="":设置开关的轨迹
+    android:textOff="开"：设置开关checked的文字
+    android:textOn="关"：设置开关关闭时的文字
+    android:thumb="":设置开关的图片
+    android:switchMinWidth=""：开关最小宽度
+    android:switchPadding="":设置开关 与文字的空白距离
+    android:switchTextAppearance="":设置文本的风格
+    android:checked="":设置初始选中状态
+    android:splitTrack="true":是否设置一个间隙，让滑块与底部图片分隔
+    -->
 
 <ScrollView
     android:layout_width="match_parent"
@@ -120,7 +132,7 @@
                 android:textSize="@dimen/titleSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_auto_update"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -157,7 +169,7 @@
             android:textSize="@dimen/titleSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_voice_report"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"

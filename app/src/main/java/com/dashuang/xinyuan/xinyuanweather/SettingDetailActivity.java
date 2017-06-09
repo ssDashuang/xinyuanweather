@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.dashuang.xinyuan.xinyuanweather.fragment.ChooseAreaFragment;
 import com.dashuang.xinyuan.xinyuanweather.fragment.CityDeleteFragment;
+import com.dashuang.xinyuan.xinyuanweather.fragment.IntervalTimeDialogFragment;
 import com.dashuang.xinyuan.xinyuanweather.fragment.ReportSettingFragment;
 
 public class SettingDetailActivity extends AppCompatActivity {
@@ -38,8 +39,6 @@ public class SettingDetailActivity extends AppCompatActivity {
             case DELETE_CITY:
                 ft.replace(R.id.setting_detail_container,new CityDeleteFragment());
                 ft.commit();
-                break;
-            case INTERVAL_TIME:
                 break;
             case SETTING_REPORT:
                 ft.replace(R.id.setting_detail_container,new ReportSettingFragment());

@@ -32,6 +32,7 @@ import com.dashuang.xinyuan.xinyuanweather.db.CityManager;
 import com.dashuang.xinyuan.xinyuanweather.db.County;
 import com.dashuang.xinyuan.xinyuanweather.db.Province;
 import com.dashuang.xinyuan.xinyuanweather.fragment.ChooseAreaFragment;
+import com.dashuang.xinyuan.xinyuanweather.service.WeatherService;
 import com.dashuang.xinyuan.xinyuanweather.util.HttpUtil;
 import com.dashuang.xinyuan.xinyuanweather.util.JsonUtility;
 import com.dashuang.xinyuan.xinyuanweather.util.PermissionUtil;
@@ -79,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
             mLocationClient.registerLocationListener(new MyLocationListener());
             configPermission();
         }
+
+        Intent intent = new Intent(MainActivity.this, WeatherService.class);
+        startService(intent);
 
     }
 
