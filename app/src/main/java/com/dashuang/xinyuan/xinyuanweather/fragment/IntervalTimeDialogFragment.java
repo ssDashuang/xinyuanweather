@@ -7,6 +7,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,6 +24,7 @@ public class IntervalTimeDialogFragment extends DialogFragment{
 
     private RadioGroup rgSelectTime;
     private int mIntervalTime;
+    private static final String TAG = "IntervalTimeDialog";
 
     @NonNull
     @Override
@@ -52,24 +54,16 @@ public class IntervalTimeDialogFragment extends DialogFragment{
         rgSelectTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                Log.e(TAG, "onCheckedChanged: " );
                 switch (i){
                     case R.id.rb_one_hour:
                         mIntervalTime = 1;
                         break;
-                    case R.id.rb_two_hour:
-                        mIntervalTime = 2;
-                        break;
-                    case R.id.rb_six_hour:
-                        mIntervalTime = 6;
+                    case R.id.rb_four_hour:
+                        mIntervalTime = 4;
                         break;
                     case R.id.rb_eight_hour:
                         mIntervalTime = 8;
-                        break;
-                    case R.id.rb_twelve_hour:
-                        mIntervalTime = 12;
-                        break;
-                    case R.id.rb_twenty_four_hour:
-                        mIntervalTime = 24;
                         break;
                 }
             }

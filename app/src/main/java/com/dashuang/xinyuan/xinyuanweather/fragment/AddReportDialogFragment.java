@@ -2,6 +2,7 @@ package com.dashuang.xinyuan.xinyuanweather.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -96,6 +97,8 @@ public class AddReportDialogFragment extends DialogFragment{
                 if (listener != null){
                     listener.onSave();
                 }
+                Intent intent = new Intent("action.setting.changed");
+                getActivity().sendBroadcast(intent);
                 dialogInterface.dismiss();
             }
         });

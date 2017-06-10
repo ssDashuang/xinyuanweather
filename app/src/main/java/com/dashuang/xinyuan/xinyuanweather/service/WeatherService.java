@@ -83,7 +83,7 @@ public class WeatherService extends Service {
     }
 
     private void setVoiceReport() {
-        final List<CityManager> cityList = CityManagerDao.queryAll();
+       final List<CityManager> cityList = CityManagerDao.queryAll();
         if (cityList != null && cityList.size() > 0 ) {
             mTimer = new Timer();
             TimerTask task = new TimerTask() {
@@ -97,6 +97,7 @@ public class WeatherService extends Service {
                     Log.e(TAG, "run: "+h+","+m );
                     long currentTime = h * 60 * 60 * 1000 + m * 60 * 1000;
                     for (CityManager city : cityList) {
+                        Log.e(TAG, "run:---------> "+city.getReport()+currentTime+"-----"+city.getTime());
                         if ( city.getReport() & city.getTime() == currentTime ) {
                             startVoiceReport(city);
                         }
@@ -108,7 +109,6 @@ public class WeatherService extends Service {
     }
 
     private void updateSetting(){
-        this.stopSelf();
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;

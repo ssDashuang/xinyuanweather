@@ -1,5 +1,6 @@
 package com.dashuang.xinyuan.xinyuanweather.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
@@ -14,9 +15,11 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dashuang.xinyuan.xinyuanweather.Global.PrefConstantKey;
 import com.dashuang.xinyuan.xinyuanweather.R;
 import com.dashuang.xinyuan.xinyuanweather.dao.CityManagerDao;
 import com.dashuang.xinyuan.xinyuanweather.db.CityManager;
+import com.dashuang.xinyuan.xinyuanweather.util.PrefUtil;
 
 import java.util.Calendar;
 import java.util.List;
@@ -50,6 +53,7 @@ public class ReportSettingFragment extends Fragment {
         if (citys != null){
            myAdapter = new MyAdapter();
             lvCity.setAdapter(myAdapter);
+
         }
     }
 
@@ -109,11 +113,16 @@ public class ReportSettingFragment extends Fragment {
             }else {
                 tvTime.setText(citys.get(i).getTimeInfo());
             }
+            if(citys.get(i).getReport()){
+                switchOpenReport.setChecked(true);
+            }
             final int pos = i;
             switchOpenReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     CityManagerDao.updateCity(citys.get(pos).getWeatherId(),b);
+                    Intent intent = new Intent("action.setting.changed");
+                    getActivity().sendBroadcast(intent);
                     Log.e(TAG, "onCheckedChanged: ----------->check" );
                 }
             });
