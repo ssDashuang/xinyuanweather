@@ -1,19 +1,35 @@
 package com.dashuang.xinyuan.xinyuanweather.service;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.BitmapTypeRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.dashuang.xinyuan.xinyuanweather.Global.ConstantURL;
 import com.dashuang.xinyuan.xinyuanweather.Global.PrefConstantKey;
+import com.dashuang.xinyuan.xinyuanweather.R;
+import com.dashuang.xinyuan.xinyuanweather.WeatherActivity;
 import com.dashuang.xinyuan.xinyuanweather.dao.CityManagerDao;
 import com.dashuang.xinyuan.xinyuanweather.db.CityManager;
 import com.dashuang.xinyuan.xinyuanweather.gson.Weather;
@@ -35,6 +51,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -78,6 +96,13 @@ public class WeatherService extends Service {
         }
        if (isVoiceReport && mTimer == null){
             setVoiceReport();
+        }
+        try {
+            sendNotification();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -154,11 +179,72 @@ public class WeatherService extends Service {
             }
         }
     }
+    private Bitmap bitmap = null;
+    private void sendNotification() throws ExecutionException, InterruptedException {
+        ArrayList<CityManager> cityManagers = (ArrayList<CityManager>) CityManagerDao.queryAll();
+        if (cityManagers != null & cityManagers.size() > 0){
+            CityManager cityManager = cityManagers.get(0);
+            final Weather weather = getPrefWeatherInfo(cityManager);
+            if (weather == null){
+                return;
+            }
+            final String weatherImgUrl = ConstantURL.WEATHER_PICTURE_URL + weather.now.more.code+".png";
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap= Glide.with(getApplicationContext())
+                                .load(weatherImgUrl)
+                                .asBitmap()
+                                .centerCrop()
+                                .into(100,100)
+                                .get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = Message.obtain();
+                    msg.obj = weather;
+                    mHandler.sendMessage(msg);
+                   //manager.notify(1,notification);
+                }
+            }).start();
+        }
 
-    private void startVoiceReport(CityManager city){
+    }
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Weather weather = (Weather) msg.obj;
+            final String title = weather.now.temperature+"°"+weather.now.more.info;
+            Log.e(TAG, "sendNotification: ------------><"+title );
+            Intent intent = new Intent(WeatherService.this, WeatherActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(WeatherService.this,0,intent,0);
+            Notification notification = new NotificationCompat.Builder(WeatherService.this)
+                    .setContentTitle(title)
+                    .setContentText(weather.basic.cityName)
+                    .setSmallIcon(R.mipmap.ic_xinyuan)
+                    .setLargeIcon(bitmap)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentIntent(pi)
+                    .build();
+            startForeground(1,notification);
+        }
+    };
+    private Weather getPrefWeatherInfo(CityManager city){
         String msg = PrefUtil.getString(WeatherService.this,
                 PrefConstantKey.WEATHER_INFO+city.getWeatherId());
-        Weather weather = JsonUtility.parseWeatherJson(msg);
+        Weather weather = null;
+        if (msg != null){
+         weather = JsonUtility.parseWeatherJson(msg);
+        }
+        return weather;
+    }
+
+    private void startVoiceReport(CityManager city){
+        Weather weather = getPrefWeatherInfo(city);
         String speak = "现在播报"+city.getCountyName()+"的天气状况,"+"当前温度"
                 +weather.now.temperature+"度,"+weather.now.more.info+","
                 +weather.now.wind.direction+","+weather.now.wind.grade+"级";

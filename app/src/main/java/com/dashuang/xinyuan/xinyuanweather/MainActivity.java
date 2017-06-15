@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
             configPermission();
         }
 
-        Intent intent = new Intent(MainActivity.this, WeatherService.class);
-        startService(intent);
+
 
     }
 

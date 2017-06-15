@@ -48,7 +48,6 @@ public class WeatherActivity extends AppCompatActivity {
         vpContainer = (ViewPager) findViewById(R.id.vp_container);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initData();
-
     }
     public void openDrawer(){
         drawerLayout.openDrawer(GravityCompat.START);
@@ -78,6 +77,8 @@ public class WeatherActivity extends AppCompatActivity {
         }
         fragmentAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragments);
         vpContainer.setAdapter(fragmentAdapter);
+        Intent intent = new Intent(this, WeatherService.class);
+        startService(intent);
     }
 
     @Override

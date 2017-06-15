@@ -3,6 +3,7 @@ package com.dashuang.xinyuan.xinyuanweather.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +26,7 @@ import com.dashuang.xinyuan.xinyuanweather.SettingActivity;
 import com.dashuang.xinyuan.xinyuanweather.WeatherActivity;
 import com.dashuang.xinyuan.xinyuanweather.gson.Forecast;
 import com.dashuang.xinyuan.xinyuanweather.gson.Weather;
+import com.dashuang.xinyuan.xinyuanweather.service.WeatherService;
 import com.dashuang.xinyuan.xinyuanweather.util.HttpUtil;
 import com.dashuang.xinyuan.xinyuanweather.util.JsonUtility;
 import com.dashuang.xinyuan.xinyuanweather.util.PrefUtil;
@@ -132,7 +134,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestWeather(currentWeatherID);
+                swipeRefresh(currentWeatherID);
             }
         });
         ibSetting.setOnClickListener(this);
@@ -180,6 +182,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         ibSetting = (ImageButton) view.findViewById(R.id.ib_setting);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_weather_refresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
     }
 
 
@@ -239,10 +242,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                         if (weather != null && "ok".equals(weather.status)){
                             PrefUtil.putString(getActivity(), prefKey,responseText);
                             showWeatherInfo(weather);
+                            Intent intent = new Intent(getActivity(), WeatherService.class);
+                            getActivity().startService(intent);
                         }else {
                             ToastUtil.show(getActivity(),"获取天气信息失败");
                         }
                         refreshLayout.setRefreshing(false);
+
                     }
                 });
             }
@@ -302,6 +308,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     public void swipeRefresh(String weatherId){
         refreshLayout.setRefreshing(true);
         requestWeather(weatherId);
+        requestImage();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override

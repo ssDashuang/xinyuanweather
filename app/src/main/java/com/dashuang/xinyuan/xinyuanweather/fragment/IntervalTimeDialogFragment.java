@@ -23,6 +23,9 @@ import com.dashuang.xinyuan.xinyuanweather.util.PrefUtil;
 public class IntervalTimeDialogFragment extends DialogFragment{
 
     private RadioGroup rgSelectTime;
+    private RadioButton rbOne;
+    private RadioButton rbFour;
+    private RadioButton rbEight;
     private int mIntervalTime;
     private static final String TAG = "IntervalTimeDialog";
 
@@ -72,5 +75,17 @@ public class IntervalTimeDialogFragment extends DialogFragment{
 
     private void initView(View view) {
         rgSelectTime = (RadioGroup) view.findViewById(R.id.rg_select_time);
+        rbEight = (RadioButton) view.findViewById(R.id.rb_eight_hour);
+        rbOne = (RadioButton) view.findViewById(R.id.rb_one_hour);
+        rbFour = (RadioButton) view.findViewById(R.id.rb_four_hour);
+        int time = PrefUtil.getInt(getActivity(),PrefConstantKey.UPDATE_INTERVAL_TIME);
+        if (time == 8){
+            rbEight.setChecked(true);
+        }else if (time == 4){
+            rbFour.setChecked(true);
+        }else {
+            rbOne.setChecked(true);
+            mIntervalTime = 1;
+        }
     }
 }
